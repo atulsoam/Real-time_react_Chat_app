@@ -1,5 +1,6 @@
 import Conversation from "../modules/conversation_module.js";
 import Messages from "../modules/Message_module.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
     try {
@@ -26,6 +27,11 @@ export const sendMessage = async (req, res) => {
         }
         await conversation.save()
         await newMessage.save()
+        const getreceiveid = getReceiverSocketId(ReceiverId)
+
+        if (getreceiveid){
+            io.to(getreceiveid).emit("newMessage",newMessage)
+        }
         return res.status(201).json({ newMessage })
 
     } catch (error) {
@@ -41,6 +47,10 @@ export const GetMessages = async (req, res) => {
         const conversation = await Conversation.findOne({
             participantes: { $all: [Senderid, UserToChat] }
         }).populate("Messages")
+
+        if (!conversation.Messages){
+            return res.status(200).json(conversation)
+        }
 
         return res.status(200).json(conversation.Messages)
 

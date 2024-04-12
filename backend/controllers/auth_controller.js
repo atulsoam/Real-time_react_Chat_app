@@ -12,8 +12,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ error: "Invalid Password or Username" })
         }
         generateTokenSetCokkie(userExist._id, res)
-        return res.status(201).json({ userEnteredData: { fullname: userExist.fullname, username: userExist.username, password: userExist.password, gender: userExist.gender, profilePic: userExist.profilePic } })
-
+        return res.status(201).json(userExist)
 
 
     } catch (error) {
@@ -61,8 +60,7 @@ export const singup = async (req, res) => {
         if (createUser) {
             generateTokenSetCokkie(createUser._id, res)
             await createUser.save()
-            return res.status(201).json({ userEnteredData: { fullname: createUser.fullname, username: createUser.username, password: createUser.password, gender: gender, profilePic: createUser.profilePic } })
-
+            return res.status(201).json(createUser)
         } else {
             return res.status(500).json({ Error: "500 Internal server error" })
 

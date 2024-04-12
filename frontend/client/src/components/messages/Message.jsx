@@ -2,27 +2,35 @@
 // import { extractTime } from "../utils/extractTime";
 // import useConversation from "../zustand/useConversation";
 
-const Message = () => {
-	// const { authUser } = useAuthContext();
-	// const { selectedConversation } = useConversation();
-	// const fromMe = message.senderId === authUser._id;
-	// const formattedTime = extractTime(message.createdAt);
-	// const chatClassName = fromMe ? "chat-end" : "chat-start";
-	// const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
-	// const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+import { useEffect } from "react";
+import { useAuthContext } from "../../context/auth_context";
+import { extractTime } from "../../utils/extractTime";
+import useConversation from "../../zustand/useConversation";
 
-	// const shakeClass = message.shouldShake ? "shake" : "";
+const Messagerender = ({ messsage }) => {
+	const { authuser } = useAuthContext()
+	const { selectedConversation } = useConversation()
+	// const fromMe = false
+	const fromMe = messsage.senderID === authuser._id
+	
+	console.log("from-->", fromMe);
+	const formatedtime = extractTime(messsage.createdAt)
+	const profile_pic = fromMe ? authuser.profilePic : selectedConversation.profilePic
+	const msgbgcolor = fromMe ? 'bg-blue-500' : ""
+	const shouldshake= messsage.shouldshake ? "shake":""
+	const chatClassName = fromMe ? 'chat-end' : 'chat-start'
 
 	return (
-		<div className={`chat `}>
+		<div className={`chat ${chatClassName}`}>
 			<div className='chat-image avatar'>
 				<div className='w-10 rounded-full'>
-					<img alt='Tailwind CSS chat bubble component'  />
+					<img src={profile_pic}
+						alt='Tailwind CSS chat bubble component' />
 				</div>
 			</div>
-			<div className={`chat-bubble text-white pb-2`}>messgae</div>
-			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>time</div>
+			<div className={`chat-bubble text-white pb-2 ${msgbgcolor} ${shouldshake}`}>{messsage.message}</div>
+			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formatedtime}</div>
 		</div>
 	);
 };
-export default Message;
+export default Messagerender;

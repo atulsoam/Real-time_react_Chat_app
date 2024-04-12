@@ -20,12 +20,7 @@ app.use("/Api/messages",messageRoute)
 app.use("/Api/users",User_routes)
 
 app.use(express.static(path.join(__dirname,"/frontend/client/dist")))
-app.use((req, res, next) => {
-    if (req.url.endsWith('.js')) {
-      res.type('application/javascript');
-    }
-    next();
-  });
+
 app.get("*",(req,res)=>{
     res.sendFile(path.join(__dirname,"frontend","client","dist","index.html"))
 })

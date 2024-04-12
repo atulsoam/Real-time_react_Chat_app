@@ -35,21 +35,19 @@
 // STARTER CODE SNIPPET
 import { BsSend } from "react-icons/bs";
 import useSendMessage from "../../hooks/useSendMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const MessageInput = () => {
 
-	const {sendmessage, loading} = useSendMessage();
+	const { sendmessage, loading } = useSendMessage();
 
-	const [message,setMessage] = useState();
-	const handlesubmit = async (e)=>{
+	const [message, setMessage] = useState();
+	const handlesubmit = async (e) => {
 		// toast.error(message)
 		e.preventDefault();
-		if (!message){
-			return
-		}
-		console.log(message,55);
+		if (!message) return
+		// console.log(message,55);
 		await sendmessage(message)
 		setMessage("")
 	}
@@ -61,10 +59,11 @@ const MessageInput = () => {
 					className='border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white'
 					placeholder='Send a message'
 					value={message}
-					onChange={(e)=> setMessage(e.target.value)}
+					onChange={(e) => setMessage(e.target.value)}
 				/>
 				<button type='submit' className='absolute inset-y-0 end-0 flex items-center pe-3'>
-				{loading ? <div className='loading loading-spinner'></div> : <BsSend />}				</button>
+					{loading ? <div className='loading loading-spinner'></div> : <BsSend />}
+				</button>
 			</div>
 		</form>
 	);

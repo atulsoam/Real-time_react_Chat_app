@@ -27,7 +27,7 @@ export const SocketcontextProvider = ({ children }) => {
             return () => socket.close()
         }
         else {
-            socket.close()
+            socket?.close()
             setSocket(null)
 
         }

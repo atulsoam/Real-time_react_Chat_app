@@ -8,7 +8,7 @@ const Conversation = ({ currentconversation, emoji, lastindx }) => {
 
 	const { onlineUser } = useSocketContext()
 	const isOnline = onlineUser.includes(currentconversation?._id)
-	console.log(onlineUser, 11);
+	// console.log(onlineUser, 11);
 	return (
 		<>
 			<div className={`flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer ${IsSelected ? "bg-sky-500" : ""}`}

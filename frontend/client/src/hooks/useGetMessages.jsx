@@ -3,37 +3,33 @@ import useConversation from "../zustand/useConversation"
 import toast from "react-hot-toast"
 
 
-const useGetMessages = ()=>{
-    const [laoding,setLoading] = useState(false)
-    const {Message,setMessage,selectedConversation} = useConversation();
+const useGetMessages = () => {
+    const [laoding, setLoading] = useState(false)
+    const { Message, setMessage, selectedConversation } = useConversation();
 
-    useEffect(()=>{
-        const getMessages = async ()=>{
+    useEffect(() => {
+        const getMessages = async () => {
             setLoading(true)
             try {
-                const response= await fetch(`/Api/messages/${selectedConversation._id}`)
+                const response = await fetch(`/Api/messages/${selectedConversation._id}`)
                 const data = await response.json()
-                if (data.error){
+                if (data.error) {
                     throw new Error(data.error)
                 }
-                if (response.ok){
-                    setMessage(data)
-                }
-                
+                setMessage(data)
             } catch (error) {
                 toast.error(error.message)
                 console.log(error);
-                
-            }finally{
+
+            } finally {
                 setLoading(false)
             }
         }
-        if(selectedConversation?._id){
-            getMessages()
-        }
-    },[selectedConversation?._id,setMessage])
+        if (selectedConversation?._id) getMessages()
+        
+    }, [selectedConversation?._id, setMessage])
 
-    return {Message,laoding}
+    return { Message, laoding,setMessage }
 }
 
 export default useGetMessages

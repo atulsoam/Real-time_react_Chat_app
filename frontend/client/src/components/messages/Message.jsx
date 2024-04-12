@@ -8,13 +8,12 @@ import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
 
 const Messagerender = ({ messsage }) => {
+
 	const { authuser } = useAuthContext()
 	const { selectedConversation } = useConversation()
-	// const fromMe = false
-	const fromMe = messsage.senderID === authuser._id
-	
-	console.log("from-->", fromMe);
-	const formatedtime = extractTime(messsage.createdAt)
+	const fromMe = messsage.newMessage? messsage.newMessage.senderID === authuser._id: messsage.senderID === authuser._id
+	// console.log("from-->", fromMe);
+	const formatedtime = extractTime(messsage.newMessage? messsage.newMessage.createdAt: messsage.createdAt)
 	const profile_pic = fromMe ? authuser.profilePic : selectedConversation.profilePic
 	const msgbgcolor = fromMe ? 'bg-blue-500' : ""
 	const shouldshake= messsage.shouldshake ? "shake":""
@@ -28,7 +27,7 @@ const Messagerender = ({ messsage }) => {
 						alt='Tailwind CSS chat bubble component' />
 				</div>
 			</div>
-			<div className={`chat-bubble text-white pb-2 ${msgbgcolor} ${shouldshake}`}>{messsage.message}</div>
+			<div className={`chat-bubble text-white pb-2 ${msgbgcolor} ${shouldshake}`}>{messsage.newMessage? messsage.newMessage.message :messsage.message}</div>
 			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formatedtime}</div>
 		</div>
 	);

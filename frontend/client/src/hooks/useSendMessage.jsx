@@ -10,13 +10,16 @@ const useSendMessage = ()=>{
     const sendmessage = async (message)=>{
         setloading(true)
         try {
-            console.log(message);
+            console.log(message)
             const res = await fetch(`Api/messages/send/${selectedConversation._id}`,{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify({message})
             })
             const data = await res.json()
+            if(data.error){
+                throw new Error(data.error)
+            }
             setMessage([...Message,data])
 
         } catch (error) {
